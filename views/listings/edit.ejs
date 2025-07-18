@@ -1,0 +1,95 @@
+<% layout("/layouts/boilerplate") %>
+
+    <body>
+        <div class="row mt-3">
+            <div class="col-8 offset-2">
+                <h3>Edit your listing</h3>
+                <form method="post" action="/listings/<%= listing._id %>?_method=PUT" novalidate
+                    class="needs-validation" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control"
+                            required>
+                        <div class="valid-feedback">Title looks good!</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="listing[description]" class="form-control"
+                            required><%= listing.description %></textarea>
+                        <div class="invalid-feedback">Please enter a short description</div>
+                    </div>
+                    <div class="mb-3">
+                        Original Listing Image<br>
+                        <img src="<%= originalImageUrl %>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Upload Listing Image</label>
+                        <input name="listing[image]" type="file" class="form-control"></label>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-md-4">
+                            <label for="price" class="form-label">Price</label>
+                            <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control"
+                                required>
+                            <div class="invalid-feedback">Price should be valid</div>
+                        </div>
+                        <div class="mb-3 col-md-8">
+                            <label for="country" class="form-label">Country</label>
+                            <input name="listing[country]" value="<%= listing.country %>" type="text"
+                                class="form-control" required>
+                            <div class="invalid-feedback">Country name should be valid</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="location" class="form-label">location</label>
+                        <input name="listing[location]" value="<%= listing.location %>" type="text" class="form-control"
+                            required>
+                        <div class="invalid-feedback">location should be valid</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="destinationType" class="form-label">Destination Type</label>
+                        <br>
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle dropdown-btn" type="button" id="destinationDropdown"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <%= listing.category ? listing.category.charAt(0).toUpperCase() +
+                                    listing.category.slice(1) : "Select" %>
+                            </button>
+
+                            <ul class="dropdown-menu" aria-labelledby="destinationDropdown">
+                                <li><li><a class="dropdown-item" data-value="arctic">Arctic</a></li>
+                                <li><li><a class="dropdown-item" data-value="mountains">Mountains</a></li>
+
+                                <li><a class="dropdown-item" data-value="domes">Domes</a></li>
+                                <li><a class="dropdown-item" data-value="trending">Trending</a></li>
+                                <li><a class="dropdown-item" data-value="camping">Camping</a></li>
+                                <li><a class="dropdown-item" data-value="farms">Farms</a></li>
+                                <li><a class="dropdown-item" data-value="amazing pools">Amazing pools</a></li>
+                                <li><a class="dropdown-item" data-value="iconic cities">Iconic Cities</a></li>
+                                <li><a class="dropdown-item" data-value="castles">Castles</a></li>
+                                <li><a class="dropdown-item" data-value="boats">Boats</a></li>
+                                <li><a class="dropdown-item" data-value="rooms">Rooms</a></li>
+                            </ul>
+                            <input type="hidden" name="listing[category]" id="destinationType" value="<%= listing.category %>">
+                            <div class="invalid-feedback">Please select a destination type</div>
+
+                        </div>
+
+                        <button class="btn btn-dark edit-btn mt-3">Edit</button>
+                </form>
+            </div>
+        </div>
+        <script>
+            document.querySelectorAll(".dropdown-item").forEach(item => {
+                item.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    const value = this.getAttribute("data-value");
+                    document.getElementById("destinationDropdown").textContent = value;
+                    document.getElementById("destinationType").value = value;
+                })
+            })
+
+        </script>
+    </body>
